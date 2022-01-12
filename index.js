@@ -4,6 +4,7 @@
 function fillButton(index, text) {
   // This function fills the button of the send index
   document.getElementById(index).innerHTML = text;
+  
 }
 // pre-made a function. You can use this function to present an alert to say someone wins
 function winningAlert(winner) {
@@ -22,39 +23,77 @@ function winningAlert(winner) {
  */
 let player = 0
 let checkP = ""
-console.log(index)
+const p1 = [];
+const p2 = [];
+
+const winningConditions = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9],
+  [1, 4, 7],
+  [2, 5, 8],
+  [3, 6, 9],
+  [1, 5, 9],
+  [3, 5, 7]
+];
+
 
 
 function clickButton(index) {
-  console.log(`Button number ${index} is clicked`);
-
-  
-    player +=1
-
-    console.log (player)
-    if(player%2===1){
-      checkP = "x"
-        }
-    
-        else {
-          checkP = "o"
-          }
-        fillButton(
-        index, checkP)
-
+  repress (index)
+  checkWinner()
 }
 
 
 
+
+
+let checkPre =[]
+
+
+
+
+function repress (inexing){
+  
+  if  (checkPre.some(x => x===inexing)){
+    alert("dont push the same button please")
+  } else {
+    player +=1
+    checkPlayer(inexing)
+    fillButton(inexing, checkP)
+  }
+checkPre.push(inexing)
+
+
+}
+
 /**
+ *  if (winningConditions[0].every(x => {
+          return p1.includes(x)
+        })){
+          console.log("player 1 wins")
+        } else if (winningConditions[0].every(x => {
+          return p1.includes(x)
+        })){
+          console.log("player 1 wins")
  * 👇🏻 BELOW are functions that you CAN use to structure your code properly.
  * It's always a good idea to make a function for every single purpose.
  *
  */
 
 // In this function you should check if the player is X or O
-function checkPlayer() {
-  
+function checkPlayer(indexs) {
+  if(player%2===1){
+    checkP = "x"
+     p1.push(indexs)
+    
+      }
+ 
+      else {
+        checkP = "o"
+        p2.push(indexs)
+        
+        }
 }
 
 /**
@@ -62,35 +101,37 @@ function checkPlayer() {
  * checkWinner should be a function that checks
  * who is winning and returns the winner
  */
-let player1=[]
-let player2=[]
-const winningConditions = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6]
-];
-function checkWinner(checkP){
 
-if(checkP==="x"){
-  player1.push(player)
 
-}
-else{
-  player2.push(player)
-}
-if(player1.includes(winningConditions)){
-  console.log("player x wins ")
-}
-if(player2.includes(winningConditions)){
-  console.log(" player o wins ")
-}
-return checkWinner
+
+function checkWinner(){
+  for (let i = 0; i < 8; i++) {
+          
+    if (winningConditions[i].every(t => {
+      return p1.includes(t)
+    })){
+      winningAlert("player 1 wins")
+     location.reload()
+    }
+  };
+  for (let i = 0; i < 8; i++) {
+    
+    if (winningConditions[i].every(t => {
+      return p2.includes(t)
+    })){
+      winningAlert("player 2 wins")
+      location.reload()
+    }
+  };
+
+  if (player===9){
+    alert("DRAWWWWWWW!")
+    location.reload()
+    }
 }
 
 
 // function restartGame
+function restartGame(){
+  window.location.reload();
+}
